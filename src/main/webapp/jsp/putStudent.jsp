@@ -42,7 +42,7 @@
 
     <form action="putSaveStudent" id="putStudentForm" method="post">
         <div class="panel-body">
-            <h4>Занятие:  ${lesson.topic}</h4>
+            <h4>Занятие: ${lesson.topic}</h4>
             <input type="hidden" name="id" value="${lesson.id}">
             <h4>Студент:</h4>
             <div class="form-group">
@@ -50,13 +50,18 @@
                     <c:forEach items="${studentList}" var="student">
                         <option value="${student.id}">${student.FIO}</option>
                     </c:forEach>
+                    <c:if test="${empty studentList}">
+                        <option value="">Нет студентов для добавления</option>
+                    </c:if>
                 </select>
             </div>
         </div>
         <div class="panel-footer">
-            <button class="btn btn-success">
-                <span class="glyphicon glyphicon-ok"></span> Сохранить
-            </button>
+            <c:if test="${not empty studentList}">
+                <button class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Сохранить
+                </button>
+            </c:if>
 
             <button type="reset" onclick="closeForm();"
                     class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Закрыть
