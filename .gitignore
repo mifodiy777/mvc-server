@@ -1,0 +1,7 @@
+.gitignore
+.gradle/
+.idea/
+build/
+out/
+settings.gradle
+
