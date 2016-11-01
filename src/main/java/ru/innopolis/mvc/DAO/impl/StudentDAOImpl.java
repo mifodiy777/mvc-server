@@ -42,7 +42,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public List<Student> getStudentList() {
         List<Student> students = this.jdbcTemplate.query(
-                "SELECT s.* FROM students s",
+                "SELECT s.* FROM students s;",
                 (rs, rowNum) -> {
                     Student std = new Student();
                     std.setId(rs.getInt("id"));
@@ -52,6 +52,22 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
                 });
+        return students;
+    }
+
+    @Override
+    public List<Student> getStudentListIsNotLesson(Integer idLesson) {
+        List<Student> students = this.jdbcTemplate.query(
+                "SELECT * FROM  students s  where s.id  NOT in (select std.id_student from lesson_std std where std.id_lesson = ?);",
+                (rs, rowNum) -> {
+                    Student std = new Student();
+                    std.setId(rs.getInt("id"));
+                    std.setSurname(rs.getString("surname"));
+                    std.setName(rs.getString("name"));
+                    std.setGender(rs.getString("gender"));
+                    std.setBirthday(rs.getDate("birthday"));
+                    return std;
+                }, idLesson);
         return students;
     }
 

@@ -13,6 +13,8 @@ public interface StudentService {
 
     List<Student> getStudentList();
 
+    List<Student> getStudentListIsNotLesson(Integer idLesson);
+
     void saveStudent(Student student);
 
     void deleteStudent(Integer id);

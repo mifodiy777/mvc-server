@@ -95,7 +95,7 @@ public class LessonController {
     public String putStudentForm(@PathVariable("id") Integer idLesson, ModelMap map) {
         map.addAttribute("type", "Режим добавления студентов к занятиям");
         map.addAttribute("lesson", lessonService.getLesson(idLesson));
-        map.addAttribute("studentList", studentService.getStudentList());
+        map.addAttribute("studentList", studentService.getStudentListIsNotLesson(idLesson));
         return "putStudent";
     }
 

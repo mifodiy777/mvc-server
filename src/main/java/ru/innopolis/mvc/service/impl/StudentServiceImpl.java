@@ -1,7 +1,6 @@
 package ru.innopolis.mvc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.innopolis.mvc.DAO.LessonDAO;
 import ru.innopolis.mvc.DAO.StudentDAO;
@@ -30,6 +29,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getStudentList() {
         return studentDAO.getStudentList();
+    }
+
+    @Override
+    public List<Student> getStudentListIsNotLesson(Integer idLesson) {
+       return studentDAO.getStudentListIsNotLesson(idLesson);
     }
 
     @Override

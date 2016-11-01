@@ -1,6 +1,8 @@
 package ru.innopolis.mvc.DAO.impl;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.mvc.DAO.LessonDAO;
@@ -105,7 +107,12 @@ public class LessonDAOImpl implements LessonDAO {
 
     @Override
     public void putLesson(Integer idLesson, Integer idStudent) {
-        this.jdbcTemplate.update("INSERT INTO lesson_std (id_lesson, id_student) VALUES (?, ?)",
-                idLesson, idStudent);
+        try {
+            this.jdbcTemplate.update("INSERT INTO lesson_std (id_lesson, id_student) VALUES (?, ?)",
+                    idLesson, idStudent);
+        } catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
     }
 }

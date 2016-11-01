@@ -1,0 +1,25 @@
+group 'ru.innopolis'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "jstl:jstl:1.1.2"
+    compile "org.slf4j:slf4j-api:1.7.21"
+    compile "org.slf4j:slf4j-log4j12:1.7.21"
+    compile "javax.transaction:transaction-api:1.1"
+    compile "com.google.code.gson:gson:2.7"
+    compile "javax.servlet:servlet-api:2.5"
+    compile "mysql:mysql-connector-java:5.1.40"
+    compile "org.apache.taglibs:taglibs-standard-jstlel:1.2.5"
+    compile "org.springframework:spring-context:4.3.3.RELEASE"
+    compile "org.springframework:spring-webmvc:4.3.3.RELEASE"
+    compile "org.springframework.data:spring-data-jpa:1.10.3.RELEASE"
+}

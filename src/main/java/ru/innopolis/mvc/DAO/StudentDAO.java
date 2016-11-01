@@ -13,6 +13,8 @@ public interface StudentDAO {
 
     List<Student> getStudentList();
 
+    List<Student> getStudentListIsNotLesson(Integer idLesson);
+
     void addStudent(Student student);
 
     void deleteStudent(Integer id);
