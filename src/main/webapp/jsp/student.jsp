@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group input-group">
                     <label for="name" class="control-label">Имя*</label>
-                    <form:input path="name" id="name" cssClass="form-control"/>
+                    <form:input path="name" id="name"  cssClass="form-control"/>
                     <span class="help-block"></span>
                 </div>
                 <div class="form-group input-group">

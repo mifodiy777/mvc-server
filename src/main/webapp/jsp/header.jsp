@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<security:authentication property="principal" var="user"/>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -59,6 +62,13 @@
                 </li>
                 <li>
                     <a href="<c:url value="/lessonPage"/>"><span class="glyphicon glyphicon-th-list"></span> Занятия</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="<c:url value="/j_spring_security_logout"/>" title="Выйти">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </a>
                 </li>
             </ul>
         </div>
