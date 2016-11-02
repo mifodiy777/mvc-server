@@ -52,7 +52,7 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
                 });
-        return null;
+        return students;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
                 }, idLesson);
-        return null;
+        return students;
     }
 
     @Override
