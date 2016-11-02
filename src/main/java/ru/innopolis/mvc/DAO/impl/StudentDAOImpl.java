@@ -15,17 +15,17 @@ import java.util.List;
 @Repository
 public class StudentDAOImpl implements StudentDAO {
 
-    /*private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }*/
+    }
 
 
     @Override
     public Student getStudent(Integer id) {
-       /* Student student = this.jdbcTemplate.queryForObject(
+        Student student = this.jdbcTemplate.queryForObject(
                 "SELECT s.* FROM students s WHERE s.id = ?", new Object[]{id},
                 (rs, rowNum) -> {
                     Student std = new Student();
@@ -35,13 +35,13 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setGender(rs.getString("gender"));
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
-                });*/
-        return null;
+                });
+        return student;
     }
 
     @Override
     public List<Student> getStudentList() {
-       /* List<Student> students = this.jdbcTemplate.query(
+        List<Student> students = this.jdbcTemplate.query(
                 "SELECT s.* FROM students s;",
                 (rs, rowNum) -> {
                     Student std = new Student();
@@ -51,13 +51,13 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setGender(rs.getString("gender"));
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
-                });*/
+                });
         return null;
     }
 
     @Override
     public List<Student> getStudentListIsNotLesson(Integer idLesson) {
-       /* List<Student> students = this.jdbcTemplate.query(
+        List<Student> students = this.jdbcTemplate.query(
                 "SELECT * FROM  students s  where s.id  NOT in (select std.id_student from lesson_std std where std.id_lesson = ?);",
                 (rs, rowNum) -> {
                     Student std = new Student();
@@ -67,26 +67,26 @@ public class StudentDAOImpl implements StudentDAO {
                     std.setGender(rs.getString("gender"));
                     std.setBirthday(rs.getDate("birthday"));
                     return std;
-                }, idLesson);*/
+                }, idLesson);
         return null;
     }
 
     @Override
     public void addStudent(Student std) {
-       /* if (std.getId() != null) {
+        if (std.getId() != null) {
             this.jdbcTemplate.update(
                     "UPDATE students SET surname=?,name=?,gender=?,birthday=? WHERE id = ?",
                     std.getSurname(), std.getName(), std.getGender(), std.getBirthday(), std.getId());
         } else {
             this.jdbcTemplate.update("INSERT INTO students (surname, name,gender,birthday) VALUES (?, ?,?,?)",
                     std.getSurname(), std.getName(), std.getGender(), std.getBirthday());
-        }*/
+        }
     }
 
     @Override
     public void deleteStudent(Integer id) {
-       /* this.jdbcTemplate.update("DELETE FROM lesson_std WHERE id_student = ?", id);
-        this.jdbcTemplate.update("DELETE FROM students WHERE id = ?", id);*/
+        this.jdbcTemplate.update("DELETE FROM lesson_std WHERE id_student = ?", id);
+        this.jdbcTemplate.update("DELETE FROM students WHERE id = ?", id);
     }
 
 
