@@ -3,6 +3,7 @@ package ru.innopolis.mvc.controller;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -56,6 +57,7 @@ public class StudentController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "student", method = RequestMethod.GET)
     public String addStudentPage(ModelMap map) {
         map.addAttribute("type", "Режим добавления студента");
@@ -85,6 +87,7 @@ public class StudentController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveStudent", method = RequestMethod.POST)
     public String saveStudent(Student student, ModelMap map) {
         studentService.saveStudent(student);
@@ -99,6 +102,7 @@ public class StudentController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteStd/{id}", method = RequestMethod.POST)
     public String deleteStudent(@PathVariable("id") Integer id, ModelMap map) {
         studentService.deleteStudent(id);

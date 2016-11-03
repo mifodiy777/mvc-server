@@ -1,6 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<security:authentication property="principal" var="user"/>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -60,7 +63,7 @@
                 </div>
                 <div class="form-group input-group">
                     <label for="name" class="control-label">Имя*</label>
-                    <form:input path="name" id="name"  cssClass="form-control"/>
+                    <form:input path="name" id="name" cssClass="form-control"/>
                     <span class="help-block"></span>
                 </div>
                 <div class="form-group input-group">
@@ -80,9 +83,11 @@
             </div>
         </div>
         <div class="panel-footer">
-            <button class="btn btn-success">
-                <span class="glyphicon glyphicon-ok"></span> Сохранить
-            </button>
+            <c:if test="${isAdmin}">
+                <button class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Сохранить
+                </button>
+            </c:if>
 
             <button type="reset" onclick="closeForm('garag'); $('#addGaragButton').show();"
                     class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Закрыть

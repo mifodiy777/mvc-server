@@ -3,6 +3,7 @@ package ru.innopolis.mvc.controller;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -91,6 +92,7 @@ public class LessonController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putStudent/{id}", method = RequestMethod.GET)
     public String putStudentForm(@PathVariable("id") Integer idLesson, ModelMap map) {
         map.addAttribute("type", "Режим добавления студентов к занятиям");
@@ -107,6 +109,7 @@ public class LessonController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putSaveStudent", method = RequestMethod.POST)
     public String putSaveStudent(@RequestParam("id") Integer idLesson,
                                  @RequestParam("student") Integer idStudent, ModelMap map) {
@@ -122,6 +125,7 @@ public class LessonController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveLesson", method = RequestMethod.POST)
     public String saveLesson(Lesson lesson, ModelMap map) {
         lessonService.addLesson(lesson);
@@ -136,6 +140,7 @@ public class LessonController {
      * @param map
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteLesson/{id}", method = RequestMethod.POST)
     public String deleteLesson(@PathVariable("id") Integer id, ModelMap map) {
         lessonService.deleteLesson(id);

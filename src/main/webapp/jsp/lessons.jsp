@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<security:authentication property="principal" var="user"/>
 <jsp:include page="header.jsp"/>
 <script type="text/javascript">
 
@@ -10,14 +13,15 @@
             "columns": [
                 {
                     "render": function (data, type, full) {
-                        return '<a href=\"#\" onclick=\"editLesson(' + full.id + ')\">Редактировать</a>'
+                        return '<a href=\"#\" onclick=\"editLesson(' + full.id + ')\"><c:if test="${isAdmin}">Редактировать</c:if><c:if test="${!isAdmin}">Просмотр</c:if></a>'
                     }, "searchable": false, "orderable": false
                 },
                 {"data": "topic", 'title': 'Тема'},
                 {"data": "description", 'title': 'Описание'},
                 {"data": "duration", 'title': 'Длительность'},
-                {"data": "date_lesson", 'title': 'Дата занятия'},
-                {
+                {"data": "date_lesson", 'title': 'Дата занятия'}
+                <c:if test="${isAdmin}">
+                , {
                     "render": function (data, type, full) {
                         return '<a href=\"#\" class="text-success" onclick=\"putStudent(' + full.id + ')\">Добавить студента</a>'
                     }, "searchable": false, "orderable": false
@@ -27,6 +31,7 @@
                         return '<a href=\"#\" class="text-danger" onclick=\"deleteLesson(' + full.id + ')\">Удалить</a>'
                     }, "searchable": false, "orderable": false
                 }
+                </c:if>
 
             ]
         });
@@ -35,9 +40,11 @@
 
 </script>
 <div class="container">
-    <button class="btn btn-success addBtn" onclick="saveEntity('lesson')">
-        <span class="glyphicon glyphicon-plus"></span> Добавить занятие
-    </button>
+    <c:if test="${isAdmin}">
+        <button class="btn btn-success addBtn" onclick="saveEntity('lesson')">
+            <span class="glyphicon glyphicon-plus"></span> Добавить занятие
+        </button>
+    </c:if>
     <div id="formPanel"></div>
     <div class="panel panel-primary">
         <div class="panel-heading">

@@ -1,6 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<security:authentication property="principal" var="user"/>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -87,9 +90,11 @@
 
 
         <div class="panel-footer">
-            <button class="btn btn-success">
-                <span class="glyphicon glyphicon-ok"></span> Сохранить
-            </button>
+            <c:if test="${isAdmin}">
+                <button class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Сохранить
+                </button>
+            </c:if>
 
             <button type="reset" onclick="closeForm('lesson');"
                     class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Закрыть
