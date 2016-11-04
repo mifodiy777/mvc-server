@@ -1,6 +1,5 @@
 package ru.innopolis.mvc.DAO.impl;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,7 +35,9 @@ public class LessonDAOImpl implements LessonDAO {
 
     private static final String INSERT_LESSON = "INSERT INTO lessons (topic,description, duration,date_lesson) VALUES (?, ?,?,?)";
 
-    private static final String DELETE_LESSON = "DELETE FROM lesson_std WHERE id_lesson = ?; DELETE FROM lessons WHERE id = ?";
+    private static final String DELETE_LESSON_STD = "DELETE FROM lesson_std WHERE id_lesson = ?;";
+
+    private static final String DELETE_LESSON = "DELETE FROM lessons WHERE id = ?";
 
     private static final String PUT_LESSON = "INSERT INTO lesson_std (id_lesson, id_student) VALUES (?, ?)";
 
@@ -48,6 +49,7 @@ public class LessonDAOImpl implements LessonDAO {
 
     /**
      * Получение занятия
+     *
      * @param id занятия
      * @return занятие
      */
@@ -66,7 +68,9 @@ public class LessonDAOImpl implements LessonDAO {
                     student.setId(rs.getInt("id"));
                     student.setSurname(rs.getString("surname"));
                     student.setName(rs.getString("name"));
-                    students.add(student);
+                    if (student.getSurname() != null) {
+                        students.add(student);
+                    }
                     return ls;
                 }, id);
         Lesson lesson = lessons.get(0);
@@ -76,6 +80,7 @@ public class LessonDAOImpl implements LessonDAO {
 
     /**
      * Получение коллекции занятий из базы
+     *
      * @return список занятий
      */
     @Override
@@ -94,6 +99,7 @@ public class LessonDAOImpl implements LessonDAO {
 
     /**
      * Получение списка занятий определенного студента
+     *
      * @param id студента
      * @return список занятий
      */
@@ -114,6 +120,7 @@ public class LessonDAOImpl implements LessonDAO {
 
     /**
      * Добавление/Редактирование занятия
+     *
      * @param lesson занятие
      */
     @Override
@@ -129,16 +136,19 @@ public class LessonDAOImpl implements LessonDAO {
 
     /**
      * Удаление занятия
+     *
      * @param id занятия
      */
     @Override
     public void deleteLesson(Integer id) {
-        this.jdbcTemplate.update(DELETE_LESSON, id, id);
+        this.jdbcTemplate.update(DELETE_LESSON_STD, id);
+        this.jdbcTemplate.update(DELETE_LESSON, id);
     }
 
     /**
      * Добавление студента к занятию
-     * @param idLesson занятие
+     *
+     * @param idLesson  занятие
      * @param idStudent студент
      */
     @Override

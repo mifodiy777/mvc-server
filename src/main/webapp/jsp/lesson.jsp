@@ -81,8 +81,11 @@
                     <h4>Студенты:</h4>
                     <ul>
                         <c:forEach items="${lesson.students}" var="student" varStatus="index">
-                            <li><p>${student.FIO}</p></li>
+                            <li><p>${student.surname} ${student.name}</p></li>
                         </c:forEach>
+                        <c:if test="${empty lesson.students}">
+                            <li><p>Студенты не посещали данное занятие</p></li>
+                        </c:if>
                     </ul>
                 </div>
             </div>

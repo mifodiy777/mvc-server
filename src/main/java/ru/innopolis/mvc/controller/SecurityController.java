@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Кирилл on 02.11.2016.
  */
 @Controller
-@RequestMapping("/")
 public class SecurityController {
+
     /**
      * Стартовая страница
      *
-     * @return
+     * @return стартовая страница
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.GET)
     public String start() {
         return "index";
     }
@@ -30,7 +30,7 @@ public class SecurityController {
      * @param model
      * @return форма
      */
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
                         Model model) {

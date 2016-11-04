@@ -28,8 +28,9 @@ public class StudentDAOImpl implements StudentDAO {
 
     private static final String INSERT_STUDENT = "INSERT INTO students (surname, name,gender,birthday) VALUES (?, ?,?,?)";
 
-    private static final String DELETE_STUDENT = "DELETE FROM lesson_std WHERE id_student = ?; " +
-            "DELETE FROM students WHERE id = ?";
+    private static final String DELETE_STUDENT_LS = "DELETE FROM lesson_std WHERE id_student = ?; ";
+
+    private static final String DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
 
 
     @Autowired
@@ -39,6 +40,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     /**
      * Получение студента
+     *
      * @param id студента
      * @return студент
      */
@@ -59,6 +61,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     /**
      * Получение списка студента
+     *
      * @return список студентов
      */
     @Override
@@ -78,6 +81,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     /**
      * Получение списка студентов не назначенных выбранному занятию
+     *
      * @param idLesson занятие
      * @return список студентов
      */
@@ -98,6 +102,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     /**
      * Добавление/Редактирование студента
+     *
      * @param std студент
      */
     @Override
@@ -113,11 +118,13 @@ public class StudentDAOImpl implements StudentDAO {
 
     /**
      * Удаление студента
+     *
      * @param id студента
      */
     @Override
     public void deleteStudent(Integer id) {
-        this.jdbcTemplate.update(DELETE_STUDENT, id, id);
+        this.jdbcTemplate.update(DELETE_STUDENT_LS, id);
+        this.jdbcTemplate.update(DELETE_STUDENT, id);
     }
 
 
