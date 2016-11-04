@@ -10,19 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Кирилл on 02.11.2016.
  */
 @Controller
+@RequestMapping("/")
 public class SecurityController {
     /**
      * Стартовая страница
+     *
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String start(){
+    public String start() {
         return "index";
     }
 
     /**
      * Форма авторизации
-     * @param error msg об ошибке
+     *
+     * @param error  msg об ошибке
      * @param logout msg о выходе из сессии
      * @param model
      * @return форма

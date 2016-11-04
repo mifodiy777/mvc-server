@@ -75,6 +75,4 @@
     </div>
 </div>
 <div id="messages" class="pull-right alert alert-info fade in " style="width: 20%; display: none"></div>
-<div id="wrap">
-
 
