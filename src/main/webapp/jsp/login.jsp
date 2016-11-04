@@ -1,23 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Кирилл
-  Date: 02.11.2016
-  Time: 10:21
-  To change this template use File | Settings | File Templates.
---%>
-<%--
-  Created by IntelliJ IDEA.
-  User: velievvm
-  Date: 16.07.15
-  Time: 19:47
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <html>
 <head>
-    <title>Студенты</title>>
+    <title>Студенты</title>
     <link type="text/css" href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet"/>
+    <script type="text/javascript" src="<c:url value='/js/jquery.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/bootstrap.min.js'/>"></script>
     <style>
         body {

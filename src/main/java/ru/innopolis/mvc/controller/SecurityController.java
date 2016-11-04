@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Кирилл on 02.11.2016.
  */
 @Controller
+@RequestMapping("/")
 public class SecurityController {
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
+    public String start(Model model){
+        return "index";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
                         Model model) {

@@ -14,6 +14,13 @@ import java.text.SimpleDateFormat;
  */
 public class LessonAdapter implements JsonSerializer<Lesson> {
 
+    /**
+     * Конвертер
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return
+     */
     @Override
     public JsonElement serialize(Lesson src, Type typeOfSrc, JsonSerializationContext context) {
 
