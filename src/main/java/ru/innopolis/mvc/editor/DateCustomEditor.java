@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Преобразование util.Date в формат дд.ММ.гггг и обратно - Используется в Binder
  * Created by Кирилл on 31.10.2016.
  */
 public class DateCustomEditor extends PropertyEditorSupport {

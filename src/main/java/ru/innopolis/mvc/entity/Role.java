@@ -7,6 +7,7 @@ public class Role {
 
     private Integer id;
 
+    //Роль
     private String name;
 
     public Integer getId() {

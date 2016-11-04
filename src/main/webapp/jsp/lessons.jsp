@@ -19,7 +19,7 @@
                 {"data": "topic", 'title': 'Тема'},
                 {"data": "description", 'title': 'Описание'},
                 {"data": "duration", 'title': 'Длительность'},
-                {"data": "date_lesson", 'title': 'Дата занятия'}
+                {"data": "dateLesson", 'title': 'Дата занятия'}
                 <c:if test="${isAdmin}">
                 , {
                     "render": function (data, type, full) {

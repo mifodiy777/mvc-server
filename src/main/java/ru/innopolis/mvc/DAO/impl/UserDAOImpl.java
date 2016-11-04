@@ -16,6 +16,8 @@ import javax.sql.DataSource;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
+    private static final String FIND_BY_LOGIN = "SELECT u.*,r.id AS rid, r.name AS rname FROM  user u LEFT JOIN role r ON u.id_role=r.id WHERE u.login = ?";
+
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -24,13 +26,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
+     * Аутентификация по логину
      * @param login
-     * @return
+     * @return User
      */
     @Override
     public User findByLogin(String login) {
         User user = this.jdbcTemplate.queryForObject(
-                "SELECT u.*,r.id AS rid, r.name AS rname FROM  user u LEFT JOIN role r ON u.id_role=r.id WHERE u.login = ?", new Object[]{login},
+                FIND_BY_LOGIN, new Object[]{login},
                 (rs, rowNum) -> {
                     User usr = new User();
                     usr.setId(rs.getInt("id"));

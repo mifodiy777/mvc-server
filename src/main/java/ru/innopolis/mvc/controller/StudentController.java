@@ -41,9 +41,9 @@ public class StudentController {
     }
 
     /**
-     * Получение всех студентов
+     * Получение всех студентов - для плагина DataTable по ajax
      *
-     * @return
+     * @return список всех студентов в формате JSON
      */
     @RequestMapping(value = "allStudents", method = RequestMethod.GET)
     public ResponseEntity<String> getStudents() {
@@ -55,7 +55,7 @@ public class StudentController {
      * Форма создания студента
      *
      * @param map
-     * @return
+     * @return форма
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "student", method = RequestMethod.GET)
@@ -66,11 +66,11 @@ public class StudentController {
     }
 
     /**
-     * ФОРМА РЕДАКТИРОВАНИЯ СТУДЕНТА
+     * Форма редактирования студента
      *
      * @param id  - студента
      * @param map
-     * @return
+     * @return форма
      */
     @RequestMapping(value = "student/{id}", method = RequestMethod.GET)
     public String editStudentForm(@PathVariable("id") Integer id, ModelMap map) {
@@ -85,7 +85,7 @@ public class StudentController {
      *
      * @param student Студент
      * @param map
-     * @return
+     * @return msg
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveStudent", method = RequestMethod.POST)
@@ -98,9 +98,9 @@ public class StudentController {
     /**
      * Удаление студента
      *
-     * @param id
+     * @param id студента
      * @param map
-     * @return
+     * @return msg
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteStd/{id}", method = RequestMethod.POST)

@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    // Указываем Spring контейнеру, что надо инициализировать <b></b>BCryptPasswordEncoder
+    // Указываем Spring контейнеру, что надо инициализировать <b>BCryptPasswordEncoder</b>
     // Это можно вынести в WebAppConfig, но для понимаемости оставил тут
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

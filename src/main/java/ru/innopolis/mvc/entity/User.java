@@ -6,17 +6,22 @@ package ru.innopolis.mvc.entity;
 public class User {
 
     private Integer id;
-
+    //Логин
     private String login;
 
+    //Пароль
     private String password;
 
+    //Имя
     private String name;
 
+    //Фамилия
     private String surname;
 
+    //Роль
     private Role role;
 
+    //Актиность пользователя
     private boolean active;
 
     public User() {

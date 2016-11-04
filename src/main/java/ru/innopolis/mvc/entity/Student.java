@@ -9,12 +9,16 @@ public class Student {
 
     private Integer id;
 
+    //Фамилия
     private String surname;
 
+    //Имя
     private String name;
 
+    //Пол
     private String gender;
 
+    //Дата рождения
     private Date birthday;
 
     public Integer getId() {

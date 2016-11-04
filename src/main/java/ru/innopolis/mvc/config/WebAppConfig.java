@@ -22,7 +22,9 @@ import javax.sql.DataSource;
 @ComponentScan("ru.innopolis.mvc")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
-    // Позволяет видеть все ресурсы в папке pages, такие как картинки, стили и т.п.
+    private static final String URL_BASE = "jdbc:mysql://127.0.0.1:3306/students?useSSL=false";
+
+    // Позволяет видеть все ресурсы в корне, такие как картинки, стили и т.п.
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
@@ -31,14 +33,24 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
     }
 
+    /**
+     * Кастомный сервис аутентификации
+     *
+     * @return
+     */
     @Bean
-    public UserDetailsService getUserDetailsService(){
+    public UserDetailsService getUserDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
+    /**
+     * Создаем DataSource - MySQL
+     *
+     * @return
+     */
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource("jdbc:mysql://127.0.0.1:3306/students?useSSL=false", "root", "root");
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL_BASE, "root", "root");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         return dataSource;
     }

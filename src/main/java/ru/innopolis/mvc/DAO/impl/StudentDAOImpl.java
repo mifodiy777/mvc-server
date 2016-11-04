@@ -17,16 +17,34 @@ public class StudentDAOImpl implements StudentDAO {
 
     private JdbcTemplate jdbcTemplate;
 
+    private static final String GET_STUDENT = "SELECT s.* FROM students s WHERE s.id = ?";
+
+    private static final String GET_STUDENT_LIST = "SELECT s.* FROM students s;";
+
+    private static final String GET_STUDENT_LIST_IS_NOT_LESSON = "SELECT * FROM  students s  WHERE s.id  " +
+            "NOT IN (SELECT std.id_student FROM lesson_std std WHERE std.id_lesson = ?);";
+
+    private static final String UPDATE_STUDENT = "UPDATE students SET surname=?,name=?,gender=?,birthday=? WHERE id = ?";
+
+    private static final String INSERT_STUDENT = "INSERT INTO students (surname, name,gender,birthday) VALUES (?, ?,?,?)";
+
+    private static final String DELETE_STUDENT = "DELETE FROM lesson_std WHERE id_student = ?; " +
+            "DELETE FROM students WHERE id = ?";
+
+
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-
+    /**
+     * Получение студента
+     * @param id студента
+     * @return студент
+     */
     @Override
     public Student getStudent(Integer id) {
-        Student student = this.jdbcTemplate.queryForObject(
-                "SELECT s.* FROM students s WHERE s.id = ?", new Object[]{id},
+        Student student = this.jdbcTemplate.queryForObject(GET_STUDENT, new Object[]{id},
                 (rs, rowNum) -> {
                     Student std = new Student();
                     std.setId(rs.getInt("id"));
@@ -39,10 +57,13 @@ public class StudentDAOImpl implements StudentDAO {
         return student;
     }
 
+    /**
+     * Получение списка студента
+     * @return список студентов
+     */
     @Override
     public List<Student> getStudentList() {
-        List<Student> students = this.jdbcTemplate.query(
-                "SELECT s.* FROM students s;",
+        List<Student> students = this.jdbcTemplate.query(GET_STUDENT_LIST,
                 (rs, rowNum) -> {
                     Student std = new Student();
                     std.setId(rs.getInt("id"));
@@ -55,10 +76,14 @@ public class StudentDAOImpl implements StudentDAO {
         return students;
     }
 
+    /**
+     * Получение списка студентов не назначенных выбранному занятию
+     * @param idLesson занятие
+     * @return список студентов
+     */
     @Override
     public List<Student> getStudentListIsNotLesson(Integer idLesson) {
-        List<Student> students = this.jdbcTemplate.query(
-                "SELECT * FROM  students s  where s.id  NOT in (select std.id_student from lesson_std std where std.id_lesson = ?);",
+        List<Student> students = this.jdbcTemplate.query(GET_STUDENT_LIST_IS_NOT_LESSON,
                 (rs, rowNum) -> {
                     Student std = new Student();
                     std.setId(rs.getInt("id"));
@@ -71,22 +96,28 @@ public class StudentDAOImpl implements StudentDAO {
         return students;
     }
 
+    /**
+     * Добавление/Редактирование студента
+     * @param std студент
+     */
     @Override
     public void addStudent(Student std) {
         if (std.getId() != null) {
-            this.jdbcTemplate.update(
-                    "UPDATE students SET surname=?,name=?,gender=?,birthday=? WHERE id = ?",
-                    std.getSurname(), std.getName(), std.getGender(), std.getBirthday(), std.getId());
+            this.jdbcTemplate.update(UPDATE_STUDENT, std.getSurname(), std.getName(),
+                    std.getGender(), std.getBirthday(), std.getId());
         } else {
-            this.jdbcTemplate.update("INSERT INTO students (surname, name,gender,birthday) VALUES (?, ?,?,?)",
-                    std.getSurname(), std.getName(), std.getGender(), std.getBirthday());
+            this.jdbcTemplate.update(INSERT_STUDENT, std.getSurname(), std.getName(),
+                    std.getGender(), std.getBirthday());
         }
     }
 
+    /**
+     * Удаление студента
+     * @param id студента
+     */
     @Override
     public void deleteStudent(Integer id) {
-        this.jdbcTemplate.update("DELETE FROM lesson_std WHERE id_student = ?", id);
-        this.jdbcTemplate.update("DELETE FROM students WHERE id = ?", id);
+        this.jdbcTemplate.update(DELETE_STUDENT, id, id);
     }
 
 

@@ -20,20 +20,41 @@ public class LessonDAOImpl implements LessonDAO {
 
     private JdbcTemplate jdbcTemplate;
 
+    private static final String GET_LESSON = "SELECT l.*, s.id AS id_student, s.surname,s.name FROM lessons l " +
+            "LEFT JOIN lesson_std sl ON l.id=sl.id_lesson " +
+            "LEFT JOIN students s ON s.id=sl.id_student " +
+            "WHERE l.id = ?";
+
+    private static final String GET_LESSON_LIST = "SELECT l.* FROM lessons l";
+
+    private static final String GET_LESSON_LIST_ON_STUDENT = "SELECT l.* FROM lessons l " +
+            "LEFT JOIN lesson_std sl ON l.id=sl.id_lesson " +
+            "LEFT JOIN students s ON s.id=sl.id_student " +
+            "WHERE s.id = ?";
+
+    private static final String UPDATE_LESSON = "UPDATE lessons SET topic=?,description=?,duration=?,date_lesson=? WHERE id = ?";
+
+    private static final String INSERT_LESSON = "INSERT INTO lessons (topic,description, duration,date_lesson) VALUES (?, ?,?,?)";
+
+    private static final String DELETE_LESSON = "DELETE FROM lesson_std WHERE id_lesson = ?; DELETE FROM lessons WHERE id = ?";
+
+    private static final String PUT_LESSON = "INSERT INTO lesson_std (id_lesson, id_student) VALUES (?, ?)";
+
     @Autowired
+
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    /**
+     * Получение занятия
+     * @param id занятия
+     * @return занятие
+     */
     @Override
     public Lesson getLesson(Integer id) {
-        String sql = "SELECT l.*, s.id AS id_student, s.surname,s.name FROM lessons l " +
-                "LEFT JOIN lesson_std sl ON l.id=sl.id_lesson " +
-                "LEFT JOIN students s ON s.id=sl.id_student " +
-                "WHERE l.id = ?";
         Set<Student> students = new HashSet<>();
-
-        List<Lesson> lessons = this.jdbcTemplate.query(sql,
+        List<Lesson> lessons = this.jdbcTemplate.query(GET_LESSON,
                 (rs, rowNum) -> {
                     Lesson ls = new Lesson();
                     ls.setId(rs.getInt("id"));
@@ -53,10 +74,13 @@ public class LessonDAOImpl implements LessonDAO {
         return lesson;
     }
 
+    /**
+     * Получение коллекции занятий из базы
+     * @return список занятий
+     */
     @Override
     public List<Lesson> getLessonList() {
-        return this.jdbcTemplate.query(
-                "SELECT l.* FROM lessons l",
+        return this.jdbcTemplate.query(GET_LESSON_LIST,
                 (rs, rowNum) -> {
                     Lesson ls = new Lesson();
                     ls.setId(rs.getInt("id"));
@@ -68,13 +92,14 @@ public class LessonDAOImpl implements LessonDAO {
                 });
     }
 
+    /**
+     * Получение списка занятий определенного студента
+     * @param id студента
+     * @return список занятий
+     */
     @Override
     public List<Lesson> getLessonListOnStudent(Integer id) {
-        return this.jdbcTemplate.query(
-                "SELECT l.* FROM lessons l " +
-                        "LEFT JOIN lesson_std sl ON l.id=sl.id_lesson " +
-                        "LEFT JOIN students s ON s.id=sl.id_student " +
-                        "WHERE s.id = ?",
+        return this.jdbcTemplate.query(GET_LESSON_LIST_ON_STUDENT,
                 (rs, rowNum) -> {
                     Lesson ls = new Lesson();
                     ls.setId(rs.getInt("id"));
@@ -87,30 +112,40 @@ public class LessonDAOImpl implements LessonDAO {
 
     }
 
+    /**
+     * Добавление/Редактирование занятия
+     * @param lesson занятие
+     */
     @Override
     public void addLesson(Lesson lesson) {
         if (lesson.getId() != null) {
-            this.jdbcTemplate.update(
-                    "UPDATE lessons SET topic=?,description=?,duration=?,date_lesson=? WHERE id = ?",
+            this.jdbcTemplate.update(UPDATE_LESSON,
                     lesson.getTopic(), lesson.getDescription(), lesson.getDuration(), lesson.getDateLesson(), lesson.getId());
         } else {
-            this.jdbcTemplate.update("INSERT INTO lessons (topic,description, duration,date_lesson) VALUES (?, ?,?,?)",
+            this.jdbcTemplate.update(INSERT_LESSON,
                     lesson.getTopic(), lesson.getDescription(), lesson.getDuration(), lesson.getDateLesson());
         }
     }
 
+    /**
+     * Удаление занятия
+     * @param id занятия
+     */
     @Override
     public void deleteLesson(Integer id) {
-        this.jdbcTemplate.update("DELETE FROM lesson_std WHERE id_lesson = ?", id);
-        this.jdbcTemplate.update("DELETE FROM lessons WHERE id = ?", id);
+        this.jdbcTemplate.update(DELETE_LESSON, id, id);
     }
 
+    /**
+     * Добавление студента к занятию
+     * @param idLesson занятие
+     * @param idStudent студент
+     */
     @Override
     public void putLesson(Integer idLesson, Integer idStudent) {
         try {
-            this.jdbcTemplate.update("INSERT INTO lesson_std (id_lesson, id_student) VALUES (?, ?)",
-                    idLesson, idStudent);
-        } catch (DataAccessException e){
+            this.jdbcTemplate.update(PUT_LESSON, idLesson, idStudent);
+        } catch (DataAccessException e) {
             e.printStackTrace();
         }
 

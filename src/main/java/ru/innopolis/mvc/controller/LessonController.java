@@ -9,7 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.innopolis.mvc.Utils;
-import ru.innopolis.mvc.adapter.LessonAdapter;
 import ru.innopolis.mvc.editor.DateCustomEditor;
 import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.service.LessonService;
@@ -29,6 +28,10 @@ public class LessonController {
     @Autowired
     private StudentService studentService;
 
+    /**
+     * Преобразователь даты для сборки объекта Lesson
+     * @param binder
+     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new DateCustomEditor());
@@ -36,8 +39,7 @@ public class LessonController {
 
     /**
      * Получение страницы занятий
-     *
-     * @return
+     * @return страница занятий
      */
     @RequestMapping(value = "lessonPage", method = RequestMethod.GET)
     public String getLessonPage() {
@@ -45,14 +47,13 @@ public class LessonController {
     }
 
     /**
-     * Получение всех занятий
+     * Получение всех занятий - для плагина DataTable по ajax
      *
-     * @return
+     * @return список всех занятий в формате JSON
      */
     @RequestMapping(value = "allLessons", method = RequestMethod.GET)
     public ResponseEntity<String> getLessons() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Lesson.class, new LessonAdapter());
         return Utils.convertListToJson(gsonBuilder, lessonService.getLessonList());
     }
 
@@ -60,7 +61,7 @@ public class LessonController {
      * Форма создания занятия
      *
      * @param map
-     * @return
+     * @return форма
      */
     @RequestMapping(value = "lesson", method = RequestMethod.GET)
     public String addLessonPage(ModelMap map) {
@@ -71,11 +72,11 @@ public class LessonController {
     }
 
     /**
-     * ФОРМА РЕДАКТИРОВАНИЯ ЗАНЯТИЯ
+     * Форма редактирования занятий
      *
      * @param id  - занятия
      * @param map
-     * @return
+     * @return форма
      */
     @RequestMapping(value = "lesson/{id}", method = RequestMethod.GET)
     public String editLessonForm(@PathVariable("id") Integer id, ModelMap map) {
@@ -86,11 +87,11 @@ public class LessonController {
     }
 
     /**
-     * ФОРМА добавления студентов к занятиям
+     * Форма добавления студентов к занятиям
      *
      * @param idLesson - занятия
      * @param map
-     * @return
+     * @return форма
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putStudent/{id}", method = RequestMethod.GET)
@@ -102,12 +103,12 @@ public class LessonController {
     }
 
     /**
-     * Сохранение занятия
+     * Сохранение занятия с добавленным студентом
      *
      * @param idLesson Занятие
      * @param idStudent Студент
      * @param map
-     * @return
+     * @return страницца success(msg)
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putSaveStudent", method = RequestMethod.POST)
@@ -123,7 +124,7 @@ public class LessonController {
      *
      * @param lesson Занятие
      * @param map
-     * @return
+     * @return страницца success(msg)
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveLesson", method = RequestMethod.POST)
@@ -136,9 +137,9 @@ public class LessonController {
     /**
      * Удаление занятия
      *
-     * @param id
+     * @param id занятия
      * @param map
-     * @return
+     * @return страницца success(msg)
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteLesson/{id}", method = RequestMethod.POST)

@@ -11,14 +11,19 @@ public class Lesson {
 
     private Integer id;
 
+    // Тема занятия
     private String topic;
 
+    // Описание занятия
     private String description;
 
+    //Длительно занятия в минутах
     private Integer duration;
 
+    //Дата занятия
     private Date dateLesson;
 
+    //Список студентов посетивших занятие
     private Set<Student> students;
 
     public Integer getId() {
