@@ -1,24 +1,35 @@
 package ru.innopolis.mvc.entity;
 
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Кирилл on 31.10.2016.
  */
+@Entity
+@Table(name = "student")
 public class Student {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
 
     //Фамилия
+    @Column(name = "surname")
     private String surname;
 
     //Имя
+    @Column(name = "name")
     private String name;
 
     //Пол
+    @Column(name = "gender")
     private String gender;
 
     //Дата рождения
+    @Column(name = "birthday")
     private Date birthday;
 
     public Integer getId() {
@@ -59,10 +70,6 @@ public class Student {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public String getFIO() {
-        return this.surname + " " + this.name;
     }
 
     @Override

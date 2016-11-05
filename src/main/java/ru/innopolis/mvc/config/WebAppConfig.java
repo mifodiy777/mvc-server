@@ -3,8 +3,12 @@ package ru.innopolis.mvc.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -22,7 +26,6 @@ import javax.sql.DataSource;
 @ComponentScan("ru.innopolis.mvc")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
-    private static final String URL_BASE = "jdbc:mysql://127.0.0.1:3306/students?useSSL=false";
 
     // Позволяет видеть все ресурсы в корне, такие как картинки, стили и т.п.
     @Override
@@ -36,23 +39,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     /**
      * Кастомный сервис аутентификации
      *
-     * @return
+     * @return сервис
      */
     @Bean
     public UserDetailsService getUserDetailsService() {
         return new UserDetailsServiceImpl();
-    }
-
-    /**
-     * Создаем DataSource - MySQL
-     *
-     * @return
-     */
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL_BASE, "root", "root");
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        return dataSource;
     }
 
     // а этот бин инициализирует View нашего проекта

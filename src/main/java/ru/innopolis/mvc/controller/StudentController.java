@@ -76,7 +76,7 @@ public class StudentController {
     public String editStudentForm(@PathVariable("id") Integer id, ModelMap map) {
         map.addAttribute("type", "Режим редактирования студента");
         map.addAttribute("student", studentService.getStudent(id));
-        map.addAttribute("count", studentService.countLesson(id));
+        map.addAttribute("sumLesson", studentService.countLesson(id));
         return "student";
     }
 

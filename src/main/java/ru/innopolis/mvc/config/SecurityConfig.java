@@ -19,7 +19,7 @@ import ru.innopolis.mvc.service.impl.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan("ru.innopolis.mvc.service")
+@ComponentScan("ru.innopolis.mvc")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -29,16 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // а также PasswordEncoder
     @Autowired
     public void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // включаем защиту от CSRF атак
-        http.csrf()
-                .disable()
+        http.csrf().disable()
                 // указываем правила запросов
                 // по которым будет определятся доступ к ресурсам и остальным данным
                 .authorizeRequests()
@@ -47,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/fonts/**").permitAll()
-                .antMatchers("/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
 
         http.formLogin()

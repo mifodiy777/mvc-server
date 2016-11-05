@@ -1,5 +1,6 @@
 package ru.innopolis.mvc.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -7,23 +8,35 @@ import java.util.Set;
 /**
  * Created by Кирилл on 01.11.2016.
  */
+@Entity
+@Table(name = "lesson")
 public class Lesson {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
 
     // Тема занятия
+    @Column(name = "topic")
     private String topic;
 
     // Описание занятия
+    @Column(name = "description")
     private String description;
 
     //Длительно занятия в минутах
+    @Column(name = "duration")
     private Integer duration;
 
     //Дата занятия
+    @Column(name = "date_lesson")
     private Date dateLesson;
 
     //Список студентов посетивших занятие
+    @ManyToMany
+    @JoinTable(name = "lesson_std", joinColumns = { @JoinColumn(name = "lesson_id") },
+            inverseJoinColumns = { @JoinColumn(name = "student_id") })
     private Set<Student> students;
 
     public Integer getId() {

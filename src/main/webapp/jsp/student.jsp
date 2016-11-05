@@ -79,7 +79,7 @@
                     <form:input path="birthday" id="birthday" cssClass="dateRU datepicker form-control"/>
                     <span class="help-block"></span>
                 </div>
-                <h4>Кол - во посещенных лекций: <c:out value="${count}"/></h4>
+                <h4>Кол - во посещенных лекций: <c:out value="${sumLesson}"/></h4>
             </div>
         </div>
         <div class="panel-footer">

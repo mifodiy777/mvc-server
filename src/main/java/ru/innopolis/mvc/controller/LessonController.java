@@ -30,6 +30,7 @@ public class LessonController {
 
     /**
      * Преобразователь даты для сборки объекта Lesson
+     *
      * @param binder
      */
     @InitBinder
@@ -39,6 +40,7 @@ public class LessonController {
 
     /**
      * Получение страницы занятий
+     *
      * @return страница занятий
      */
     @RequestMapping(value = "lessonPage", method = RequestMethod.GET)
@@ -81,7 +83,6 @@ public class LessonController {
     @RequestMapping(value = "lesson/{id}", method = RequestMethod.GET)
     public String editLessonForm(@PathVariable("id") Integer id, ModelMap map) {
         map.addAttribute("type", "Режим редактирования занятия");
-        map.addAttribute("student-list", studentService.getStudentList());
         map.addAttribute("lesson", lessonService.getLesson(id));
         return "lesson";
     }
@@ -98,6 +99,7 @@ public class LessonController {
     public String putStudentForm(@PathVariable("id") Integer idLesson, ModelMap map) {
         map.addAttribute("type", "Режим добавления студентов к занятиям");
         map.addAttribute("lesson", lessonService.getLesson(idLesson));
+        //получение студентов не посетивших текущее занятие
         map.addAttribute("studentList", studentService.getStudentListIsNotLesson(idLesson));
         return "putStudent";
     }
@@ -105,7 +107,7 @@ public class LessonController {
     /**
      * Сохранение занятия с добавленным студентом
      *
-     * @param idLesson Занятие
+     * @param idLesson  Занятие
      * @param idStudent Студент
      * @param map
      * @return страницца success(msg)
@@ -118,6 +120,7 @@ public class LessonController {
         map.put("message", "Студент добавлен к занятию!");
         return "success";
     }
+
 
     /**
      * Сохранение занятия
@@ -137,7 +140,7 @@ public class LessonController {
     /**
      * Удаление занятия
      *
-     * @param id занятия
+     * @param id  занятия
      * @param map
      * @return страницца success(msg)
      */

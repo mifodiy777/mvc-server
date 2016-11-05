@@ -66,6 +66,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a style="cursor:default"> <c:out value="${user.username}"/> </a>
+                </li>
+                <li>
                     <a href="<c:url value="/logout"/>" title="Выйти">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>

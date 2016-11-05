@@ -1,5 +1,6 @@
 package ru.innopolis.mvc.service;
 
+import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entity.Student;
 
 import java.util.List;
@@ -13,11 +14,12 @@ public interface StudentService {
 
     List<Student> getStudentList();
 
-    List<Student> getStudentListIsNotLesson(Integer idLesson);
+   List<Student> getStudentListIsNotLesson(Integer idLesson);
 
     void saveStudent(Student student);
 
     void deleteStudent(Integer id);
 
-    Integer countLesson(Integer id);
+    Integer countLesson(Integer studentId);
+
 }

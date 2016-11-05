@@ -48,7 +48,7 @@
             <div class="form-group">
                 <select name="student" class="form-control">
                     <c:forEach items="${studentList}" var="student">
-                        <option value="${student.id}">${student.FIO}</option>
+                        <option value="${student.id}">${student.surname} ${student.name}</option>
                     </c:forEach>
                     <c:if test="${empty studentList}">
                         <option value="">Нет студентов для добавления</option>

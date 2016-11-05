@@ -18,4 +18,5 @@ public interface LessonService {
     void deleteLesson(Integer id);
 
     void putStudent(Integer idLesson, Integer idStudent);
+
 }

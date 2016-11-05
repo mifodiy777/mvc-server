@@ -104,5 +104,4 @@
             </button>
         </div>
     </form:form>
-    <div id
 </div>
