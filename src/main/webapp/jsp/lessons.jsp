@@ -8,12 +8,15 @@
 
     $(document).ready(function () {
 
-        $('#lessonTable').DataTable({
+
+        $('#lessonTable').on('error.dt', function (e, settings, techNote, message) {
+            showErrorMessage(message);
+        }).DataTable({
             "ajax": "allLessons",
             "columns": [
                 {
                     "render": function (data, type, full) {
-                        return '<a href=\"#\" onclick=\"editLesson(' + full.id + ')\"><c:if test="${isAdmin}">Редактировать</c:if><c:if test="${!isAdmin}">Просмотр</c:if></a>'
+                        return '<a href=\"#\" onclick=\"editEntity(' + full.id + ',\'lesson\')\"><c:if test="${isAdmin}">Редактировать</c:if><c:if test="${!isAdmin}">Просмотр</c:if></a>'
                     }, "searchable": false, "orderable": false
                 },
                 {"data": "topic", 'title': 'Тема'},

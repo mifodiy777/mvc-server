@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entity.User;
 
+import java.sql.SQLException;
+
 /**
  * Created by Кирилл on 02.11.2016.
  */
 @Repository
 public interface UserDAO extends CrudRepository<User, Integer> {
 
-    User findByLogin(String login);
+    User findByLogin(String login) throws SQLException;
 }

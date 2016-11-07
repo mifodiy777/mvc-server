@@ -39,6 +39,8 @@
             }
         });
 
+        $.fn.dataTable.ext.errMode = 'none';
+
 
     </script>
 </head>

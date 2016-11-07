@@ -18,7 +18,7 @@ public class Lesson {
     private Integer id;
 
     // Тема занятия
-    @Column(name = "topic")
+    @Column(name = "topic",nullable = false)
     private String topic;
 
     // Описание занятия
@@ -26,11 +26,11 @@ public class Lesson {
     private String description;
 
     //Длительно занятия в минутах
-    @Column(name = "duration")
+    @Column(name = "duration",nullable = false)
     private Integer duration;
 
     //Дата занятия
-    @Column(name = "date_lesson")
+    @Column(name = "date_lesson",nullable = false)
     private Date dateLesson;
 
     //Список студентов посетивших занятие

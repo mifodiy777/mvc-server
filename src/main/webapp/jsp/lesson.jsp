@@ -36,6 +36,8 @@
             format: "dd.mm.yyyy",
             language: 'ru',
             todayBtn: true
+        }).on('changeDate', function (ev) {
+            $(this).valid();
         });
 
         $("#lessonForm").submit(function (e) {
@@ -68,7 +70,7 @@
                 </div>
                 <div class="form-group input-group">
                     <label for="duration" class="control-label">Длительность</label>
-                    <form:input path="duration" id="duration" cssClass="form-control digits"/>
+                    <form:input path="duration" id="duration" cssClass="required form-control digits"/>
                     <span class="help-block"></span>
                 </div>
                 <div class="form-group input-group">

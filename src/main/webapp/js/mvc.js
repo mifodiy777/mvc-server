@@ -33,15 +33,23 @@ function saveEntity(entity) {
 }
 
 
-function editEntity(id) {
+function editEntity(id, entity) {
     $("#formPanel").empty();
-    $("#formPanel").load("student/" + id);
+    $("#formPanel").load(entity + "/" + id, function (response, status, xhr) {
+        if (status == "error") {
+            showErrorMessage(response);
+        }
+    });
     $(".addBtn").hide();
 }
 
 function editLesson(id) {
     $("#formPanel").empty();
-    $("#formPanel").load("lesson/" + id);
+    $("#formPanel").load("lesson/" + id, function (response, status, xhr) {
+        if (status == "error") {
+            showErrorMessage(response);
+        }
+    });
     $(".addBtn").hide();
 }
 
@@ -82,7 +90,11 @@ function deleteLesson(id) {
 
 function putStudent(id) {
     $("#formPanel").empty();
-    $("#formPanel").load("putStudent/" + id);
+    $("#formPanel").load("putStudent/" + id, function (response, status, xhr) {
+        if (status == "error") {
+            showErrorMessage(response);
+        }
+    });
     $(".addBtn").hide();
 }
 

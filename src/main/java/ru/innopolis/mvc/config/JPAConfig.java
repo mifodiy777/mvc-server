@@ -12,6 +12,8 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import static ru.innopolis.mvc.config.Constance.*;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -23,7 +25,6 @@ import javax.sql.DataSource;
 @EnableJpaRepositories("ru.innopolis.mvc.DAO")
 public class JPAConfig {
 
-    private static final String URL_BASE = "jdbc:mysql://127.0.0.1:3306/students?useSSL=false";
 
     @Bean
     JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
@@ -50,12 +51,13 @@ public class JPAConfig {
     @Bean
     public DataSource getDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setDriverClassName(DRIVER_DB);
         dataSource.setUrl(URL_BASE);
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setUsername(USERNAME_DB);
+        dataSource.setPassword(PASSWORD_DB);
         return dataSource;
     }
+
 
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {

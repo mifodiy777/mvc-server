@@ -1,7 +1,8 @@
 package ru.innopolis.mvc.service;
 
-import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entity.Student;
+import ru.innopolis.mvc.entityModal.StudentModal;
+import ru.innopolis.mvc.exception.DataSQLException;
 
 import java.util.List;
 
@@ -10,16 +11,16 @@ import java.util.List;
  */
 public interface StudentService {
 
-    Student getStudent(Integer id);
+    StudentModal getStudent(Integer id) throws DataSQLException;
 
-    List<Student> getStudentList();
+    List<StudentModal> getStudentList() throws DataSQLException;
 
-   List<Student> getStudentListIsNotLesson(Integer idLesson);
+   List<StudentModal> getStudentListIsNotLesson(Integer idLesson) throws DataSQLException;
 
-    void saveStudent(Student student);
+    void saveStudent(StudentModal student) throws DataSQLException;
 
-    void deleteStudent(Integer id);
+    void deleteStudent(Integer id) throws DataSQLException;
 
-    Integer countLesson(Integer studentId);
+    Integer countLesson(Integer studentId) throws DataSQLException;
 
 }

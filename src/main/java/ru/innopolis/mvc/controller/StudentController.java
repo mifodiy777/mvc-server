@@ -2,6 +2,7 @@ package ru.innopolis.mvc.controller;
 
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.innopolis.mvc.Utils;
 import ru.innopolis.mvc.editor.DateCustomEditor;
 import ru.innopolis.mvc.entity.Student;
+import ru.innopolis.mvc.entityModal.StudentModal;
+import ru.innopolis.mvc.exception.DataSQLException;
 import ru.innopolis.mvc.service.StudentService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +52,11 @@ public class StudentController {
     @RequestMapping(value = "allStudents", method = RequestMethod.GET)
     public ResponseEntity<String> getStudents() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        return Utils.convertListToJson(gsonBuilder, studentService.getStudentList());
+        try {
+            return Utils.convertListToJson(gsonBuilder, studentService.getStudentList());
+        } catch (DataSQLException e) {
+            return ResponseEntity.status(409).body("Error");
+        }
     }
 
     /**
@@ -63,6 +71,7 @@ public class StudentController {
         map.addAttribute("type", "Режим добавления студента");
         map.addAttribute("student", new Student());
         return "student";
+
     }
 
     /**
@@ -73,11 +82,19 @@ public class StudentController {
      * @return форма
      */
     @RequestMapping(value = "student/{id}", method = RequestMethod.GET)
-    public String editStudentForm(@PathVariable("id") Integer id, ModelMap map) {
+    public String editStudentForm(@PathVariable("id") Integer id, ModelMap map, HttpServletResponse response) {
         map.addAttribute("type", "Режим редактирования студента");
-        map.addAttribute("student", studentService.getStudent(id));
-        map.addAttribute("sumLesson", studentService.countLesson(id));
-        return "student";
+        try {
+            map.addAttribute("student", studentService.getStudent(id));
+            map.addAttribute("sumLesson", studentService.countLesson(id));
+            return "student";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка получения данных для формы");
+            response.setStatus(409);
+            return "error";
+        }
+
+
     }
 
     /**
@@ -89,25 +106,38 @@ public class StudentController {
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveStudent", method = RequestMethod.POST)
-    public String saveStudent(Student student, ModelMap map) {
-        studentService.saveStudent(student);
-        map.put("message", "Студент сохранен!");
-        return "success";
+    public String saveStudent(StudentModal student, ModelMap map, HttpServletResponse response) {
+        try {
+            studentService.saveStudent(student);
+            map.put("message", "Студент сохранен!");
+            return "success";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка сохранения студента");
+            response.setStatus(409);
+            return "error";
+        }
+
     }
 
     /**
      * Удаление студента
      *
-     * @param id студента
+     * @param id  студента
      * @param map
      * @return msg
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteStd/{id}", method = RequestMethod.POST)
-    public String deleteStudent(@PathVariable("id") Integer id, ModelMap map) {
-        studentService.deleteStudent(id);
-        map.put("message", "Студент удален!");
-        return "success";
+    public String deleteStudent(@PathVariable("id") Integer id, ModelMap map, HttpServletResponse response) {
+        try {
+            studentService.deleteStudent(id);
+            map.put("message", "Студент удален!");
+            return "success";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка удаления студента");
+            response.setStatus(409);
+            return "error";
+        }
     }
 
 }

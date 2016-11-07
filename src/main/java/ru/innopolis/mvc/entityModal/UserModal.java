@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Кирилл on 02.11.2016.
  */
-public class UserDTO {
+public class UserModal {
 
     private Integer id;
 
@@ -98,7 +98,7 @@ public class UserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserDTO user = (UserDTO) o;
+        UserModal user = (UserModal) o;
 
         if (active != user.active) return false;
         if (id != null ? !id.equals(user.id) : user.id != null) return false;

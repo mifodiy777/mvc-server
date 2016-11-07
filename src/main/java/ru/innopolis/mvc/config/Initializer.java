@@ -13,13 +13,15 @@ import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.*;
 import java.util.EnumSet;
 
+import static ru.innopolis.mvc.config.Constance.DISPATCHER_SERVLET_NAME;
+
 /**
  * Created by Кирилл on 03.11.2016.
  */
 public class Initializer implements WebApplicationInitializer {
 
     // Указываем имя нашему Servlet Dispatcher для мапинга
-    private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
+
 
     /**
      * Настройка контейнера сервлетов вместо web.xml

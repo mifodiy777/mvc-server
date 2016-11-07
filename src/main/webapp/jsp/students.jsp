@@ -8,12 +8,14 @@
 
     $(document).ready(function () {
 
-        $('#studentTable').DataTable({
+        $('#studentTable').on('error.dt', function (e, settings, techNote, message) {
+            showErrorMessage(message);
+        }).DataTable({
             "ajax": "allStudents",
             "columns": [
                 {
                     "render": function (data, type, full) {
-                        return '<a href=\"#\" onclick=\"editEntity(' + full.id + ')\"><c:if test="${isAdmin}">Редактировать</c:if><c:if test="${!isAdmin}">Просмотр</c:if></a>'
+                        return '<a href=\"#\" onclick=\"editEntity(' + full.id + ',\'student\')\"><c:if test="${isAdmin}">Редактировать</c:if><c:if test="${!isAdmin}">Просмотр</c:if></a>'
                     }, "searchable": false, "orderable": false
                 },
                 {"data": "surname", 'title': 'Фамилия'},

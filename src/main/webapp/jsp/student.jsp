@@ -36,6 +36,8 @@
             format: "dd.mm.yyyy",
             language: 'ru',
             todayBtn: true
+        }).on('changeDate', function (ev) {
+            $(this).valid();
         });
 
         $("#studentForm").submit(function (e) {

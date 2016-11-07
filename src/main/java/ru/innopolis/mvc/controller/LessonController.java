@@ -1,6 +1,8 @@
 package ru.innopolis.mvc.controller;
 
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -12,9 +14,11 @@ import ru.innopolis.mvc.Utils;
 import ru.innopolis.mvc.editor.DateCustomEditor;
 import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entityModal.LessonModal;
+import ru.innopolis.mvc.exception.DataSQLException;
 import ru.innopolis.mvc.service.LessonService;
 import ru.innopolis.mvc.service.StudentService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -57,7 +61,11 @@ public class LessonController {
     @RequestMapping(value = "allLessons", method = RequestMethod.GET)
     public ResponseEntity<String> getLessons() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        return Utils.convertListToJson(gsonBuilder, lessonService.getLessonList());
+        try {
+            return Utils.convertListToJson(gsonBuilder, lessonService.getLessonList());
+        } catch (DataSQLException e) {
+            return ResponseEntity.status(409).body("Error");
+        }
     }
 
     /**
@@ -81,10 +89,17 @@ public class LessonController {
      * @return форма
      */
     @RequestMapping(value = "lesson/{id}", method = RequestMethod.GET)
-    public String editLessonForm(@PathVariable("id") Integer id, ModelMap map) {
+    public String editLessonForm(@PathVariable("id") Integer id, ModelMap map, HttpServletResponse response) {
         map.addAttribute("type", "Режим редактирования занятия");
-        map.addAttribute("lesson", lessonService.getLesson(id));
-        return "lesson";
+        try {
+            map.addAttribute("lesson", lessonService.getLesson(id));
+            return "lesson";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка получения данных для формы");
+            response.setStatus(409);
+            return "error";
+        }
+
     }
 
     /**
@@ -96,11 +111,19 @@ public class LessonController {
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putStudent/{id}", method = RequestMethod.GET)
-    public String putStudentForm(@PathVariable("id") Integer idLesson, ModelMap map) {
+    public String putStudentForm(@PathVariable("id") Integer idLesson, ModelMap map, HttpServletResponse response) {
         map.addAttribute("type", "Режим добавления студентов к занятиям");
-        map.addAttribute("lesson", lessonService.getLesson(idLesson));
-        //получение студентов не посетивших текущее занятие
-        map.addAttribute("studentList", studentService.getStudentListIsNotLesson(idLesson));
+        try {
+            map.addAttribute("lesson", lessonService.getLesson(idLesson));
+            //получение студентов не посетивших текущее занятие
+            map.addAttribute("studentList", studentService.getStudentListIsNotLesson(idLesson));
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка получения данных для формы");
+            response.setStatus(409);
+            return "error";
+        }
+
+
         return "putStudent";
     }
 
@@ -115,10 +138,19 @@ public class LessonController {
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "putSaveStudent", method = RequestMethod.POST)
     public String putSaveStudent(@RequestParam("id") Integer idLesson,
-                                 @RequestParam("student") Integer idStudent, ModelMap map) {
-        lessonService.putStudent(idLesson, idStudent);
-        map.put("message", "Студент добавлен к занятию!");
-        return "success";
+                                 @RequestParam("student") Integer idStudent,
+                                 HttpServletResponse response, ModelMap map) {
+
+        try {
+            lessonService.putStudent(idLesson, idStudent);
+            map.put("message", "Студент добавлен к занятию!");
+            return "success";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка добавления студента к занятию");
+            response.setStatus(409);
+            return "error";
+        }
+
     }
 
 
@@ -131,10 +163,17 @@ public class LessonController {
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveLesson", method = RequestMethod.POST)
-    public String saveLesson(LessonModal lesson, ModelMap map) {
-        lessonService.addLesson(lesson);
-        map.put("message", "Занятие сохранено!");
-        return "success";
+    public String saveLesson(LessonModal lesson, ModelMap map, HttpServletResponse response) {
+        try {
+            lessonService.addLesson(lesson);
+            map.put("message", "Занятие сохранено!");
+            return "success";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка добавления студента к занятию");
+            response.setStatus(409);
+            return "error";
+        }
+
     }
 
     /**
@@ -146,9 +185,16 @@ public class LessonController {
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "deleteLesson/{id}", method = RequestMethod.POST)
-    public String deleteLesson(@PathVariable("id") Integer id, ModelMap map) {
-        lessonService.deleteLesson(id);
-        map.put("message", "Занятие удалено!");
-        return "success";
+    public String deleteLesson(@PathVariable("id") Integer id, ModelMap map, HttpServletResponse response) {
+        try {
+            lessonService.deleteLesson(id);
+            map.put("message", "Занятие удалено!");
+            return "success";
+        } catch (DataSQLException e) {
+            map.addAttribute("message", "Ошибка удаления занятия");
+            response.setStatus(409);
+            return "error";
+        }
+
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entity.Student;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public interface StudentDAO extends JpaRepository<Student, Integer> {
 
 
     @Query(value = "SELECT * FROM  student s  WHERE s.id  NOT IN (SELECT std.student_id FROM lesson_std std WHERE std.lesson_id = ?1)", nativeQuery = true)
-    List<Student> getStudentListIsNotLesson(Integer idLesson);
+    List<Student> getStudentListIsNotLesson(Integer idLesson) throws SQLException;
 
     @Query("select count(l) FROM Lesson as l inner join l.students s where s.id = ?1")
-    Integer getCountLesson(Integer studentId);
+    Integer getCountLesson(Integer studentId) throws SQLException;
 }

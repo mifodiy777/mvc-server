@@ -2,6 +2,7 @@ package ru.innopolis.mvc.service;
 
 import ru.innopolis.mvc.entity.Lesson;
 import ru.innopolis.mvc.entityModal.LessonModal;
+import ru.innopolis.mvc.exception.DataSQLException;
 
 import java.util.List;
 
@@ -10,14 +11,14 @@ import java.util.List;
  */
 public interface LessonService {
 
-    LessonModal getLesson(Integer id);
+    LessonModal getLesson(Integer id) throws DataSQLException;
 
-    List<LessonModal> getLessonList();
+    List<LessonModal> getLessonList() throws DataSQLException;
 
-    void addLesson(LessonModal lesson);
+    void addLesson(LessonModal lesson) throws DataSQLException;
 
-    void deleteLesson(Integer id);
+    void deleteLesson(Integer id) throws DataSQLException;
 
-    void putStudent(Integer idLesson, Integer idStudent);
+    void putStudent(Integer idLesson, Integer idStudent) throws DataSQLException;
 
 }
