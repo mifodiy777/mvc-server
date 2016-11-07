@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Mahankov
+ * UserDTO: Mahankov
  * Date: 13.05.2015
  * Time: 15:28:50
  * To change this template use File | Settings | File Templates.

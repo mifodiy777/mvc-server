@@ -1,6 +1,7 @@
 package ru.innopolis.mvc.service;
 
 import ru.innopolis.mvc.entity.Lesson;
+import ru.innopolis.mvc.entityModal.LessonModal;
 
 import java.util.List;
 
@@ -9,11 +10,11 @@ import java.util.List;
  */
 public interface LessonService {
 
-    Lesson getLesson(Integer id);
+    LessonModal getLesson(Integer id);
 
-    List<Lesson> getLessonList();
+    List<LessonModal> getLessonList();
 
-    void addLesson(Lesson lesson);
+    void addLesson(LessonModal lesson);
 
     void deleteLesson(Integer id);
 

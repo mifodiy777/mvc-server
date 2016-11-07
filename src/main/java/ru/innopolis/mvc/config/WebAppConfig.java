@@ -1,5 +1,8 @@
 package ru.innopolis.mvc.config;
 
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +47,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public UserDetailsService getUserDetailsService() {
         return new UserDetailsServiceImpl();
+    }
+
+    @Bean
+    public MapperFacade getMapperFacade() {
+        return new DefaultMapperFactory.Builder().build().getMapperFacade();
     }
 
     // а этот бин инициализирует View нашего проекта

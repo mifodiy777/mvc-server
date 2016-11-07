@@ -39,6 +39,7 @@ dependencies {
     compile "org.hibernate:hibernate-entitymanager:5.2.3.Final";
     compile "org.hibernate:hibernate-validator:5.3.0.Final";
     compile 'commons-dbcp:commons-dbcp:1.4';
+    compile 'ma.glasnost.orika:orika-core:1.4.6'
 
 
 }

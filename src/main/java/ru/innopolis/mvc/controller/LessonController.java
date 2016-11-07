@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.innopolis.mvc.Utils;
 import ru.innopolis.mvc.editor.DateCustomEditor;
 import ru.innopolis.mvc.entity.Lesson;
+import ru.innopolis.mvc.entityModal.LessonModal;
 import ru.innopolis.mvc.service.LessonService;
 import ru.innopolis.mvc.service.StudentService;
 
@@ -29,7 +30,7 @@ public class LessonController {
     private StudentService studentService;
 
     /**
-     * Преобразователь даты для сборки объекта Lesson
+     * Преобразователь даты для сборки объекта LessonModal
      *
      * @param binder
      */
@@ -69,7 +70,6 @@ public class LessonController {
     public String addLessonPage(ModelMap map) {
         map.addAttribute("type", "Режим добавления занятия");
         map.addAttribute("lesson", new Lesson());
-        map.addAttribute("student-list", studentService.getStudentList());
         return "lesson";
     }
 
@@ -131,7 +131,7 @@ public class LessonController {
      */
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "saveLesson", method = RequestMethod.POST)
-    public String saveLesson(Lesson lesson, ModelMap map) {
+    public String saveLesson(LessonModal lesson, ModelMap map) {
         lessonService.addLesson(lesson);
         map.put("message", "Занятие сохранено!");
         return "success";
