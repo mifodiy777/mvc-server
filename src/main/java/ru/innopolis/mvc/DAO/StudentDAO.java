@@ -17,10 +17,7 @@ import java.util.Set;
 @Repository
 public interface StudentDAO extends JpaRepository<Student, Integer> {
 
-
     @Query(value = "SELECT * FROM  student s  WHERE s.id  NOT IN (SELECT std.student_id FROM lesson_std std WHERE std.lesson_id = ?1)", nativeQuery = true)
     List<Student> getStudentListIsNotLesson(Integer idLesson) throws SQLException;
 
-    @Query("select count(l) FROM Lesson as l inner join l.students s where s.id = ?1")
-    Integer getCountLesson(Integer studentId) throws SQLException;
 }

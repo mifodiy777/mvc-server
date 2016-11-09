@@ -17,7 +17,4 @@ public class DataSQLException extends Exception {
         super(message);
         logger.error(message, this);
     }
-
-    public DataSQLException() {
-    }
 }

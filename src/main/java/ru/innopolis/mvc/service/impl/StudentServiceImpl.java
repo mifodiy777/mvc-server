@@ -4,6 +4,7 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.mvc.DAO.StudentDAO;
 import ru.innopolis.mvc.entity.Student;
 import ru.innopolis.mvc.entityModal.StudentModal;
@@ -85,6 +86,7 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public void saveStudent(StudentModal studentModal) throws DataSQLException {
         try {
             Student student = mapper.map(studentModal, Student.class);
@@ -101,6 +103,7 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public void deleteStudent(Integer id) throws DataSQLException {
         try {
             studentDAO.delete(id);
@@ -118,8 +121,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Integer countLesson(Integer studentId) throws DataSQLException {
         try {
-            return studentDAO.getCountLesson(studentId);
-        } catch (SQLException e) {
+            return studentDAO.findOne(studentId).getLessonList().size();
+        } catch (DataIntegrityViolationException e) {
             throw new DataSQLException("Ошибка получения количества занятий посетившим определенным студентом");
         }
     }

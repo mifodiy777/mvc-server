@@ -2,6 +2,7 @@ package ru.innopolis.mvc.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,6 +32,9 @@ public class Student {
     //Дата рождения
     @Column(name = "birthday")
     private Date birthday;
+
+    @ManyToMany(mappedBy = "students")
+    private List<Lesson> lessonList;
 
     public Integer getId() {
         return id;
@@ -72,6 +76,14 @@ public class Student {
         this.birthday = birthday;
     }
 
+    public List<Lesson> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,7 +95,8 @@ public class Student {
         if (surname != null ? !surname.equals(student.surname) : student.surname != null) return false;
         if (name != null ? !name.equals(student.name) : student.name != null) return false;
         if (gender != null ? !gender.equals(student.gender) : student.gender != null) return false;
-        return birthday != null ? birthday.equals(student.birthday) : student.birthday == null;
+        if (birthday != null ? !birthday.equals(student.birthday) : student.birthday != null) return false;
+        return lessonList != null ? lessonList.equals(student.lessonList) : student.lessonList == null;
 
     }
 
@@ -94,6 +107,7 @@ public class Student {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (lessonList != null ? lessonList.hashCode() : 0);
         return result;
     }
 }
