@@ -60,7 +60,7 @@ public class LessonController {
     public ResponseEntity<String> getLessons() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         try {
-            return Utils.convertListToJson(gsonBuilder, lessonService.getLessonList());
+            return Utils.convertListToJson(gsonBuilder.excludeFieldsWithoutExposeAnnotation(), lessonService.getLessonList());
         } catch (DataSQLException e) {
             return ResponseEntity.status(409).body("Error");
         }

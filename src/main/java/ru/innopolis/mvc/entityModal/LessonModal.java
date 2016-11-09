@@ -1,5 +1,7 @@
 package ru.innopolis.mvc.entityModal;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -8,18 +10,23 @@ import java.util.Set;
  */
 public class LessonModal {
 
+    @Expose
     private Integer id;
 
     // Тема занятия
+    @Expose
     private String topic;
 
     // Описание занятия
+    @Expose
     private String description;
 
     //Длительно занятия в минутах
+    @Expose
     private Integer duration;
 
     //Дата занятия
+    @Expose
     private Date dateLesson;
 
     //Список студентов посетивших занятие

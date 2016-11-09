@@ -1,25 +1,37 @@
 package ru.innopolis.mvc.entityModal;
 
+import com.google.gson.annotations.Expose;
+import ru.innopolis.mvc.entity.Lesson;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Кирилл on 31.10.2016.
  */
 public class StudentModal {
 
+    @Expose
     private Integer id;
 
     //Фамилия
+    @Expose
     private String surname;
 
     //Имя
+    @Expose
     private String name;
 
     //Пол
+    @Expose
     private String gender;
 
     //Дата рождения
+    @Expose
     private Date birthday;
+
+    //Список занятий
+    private List<Lesson> lessonList;
 
     public Integer getId() {
         return id;
@@ -61,18 +73,27 @@ public class StudentModal {
         this.birthday = birthday;
     }
 
+    public List<Lesson> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudentModal student = (StudentModal) o;
+        StudentModal that = (StudentModal) o;
 
-        if (id != null ? !id.equals(student.id) : student.id != null) return false;
-        if (surname != null ? !surname.equals(student.surname) : student.surname != null) return false;
-        if (name != null ? !name.equals(student.name) : student.name != null) return false;
-        if (gender != null ? !gender.equals(student.gender) : student.gender != null) return false;
-        return birthday != null ? birthday.equals(student.birthday) : student.birthday == null;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
+        return lessonList != null ? lessonList.equals(that.lessonList) : that.lessonList == null;
 
     }
 
@@ -83,6 +104,7 @@ public class StudentModal {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (lessonList != null ? lessonList.hashCode() : 0);
         return result;
     }
 }

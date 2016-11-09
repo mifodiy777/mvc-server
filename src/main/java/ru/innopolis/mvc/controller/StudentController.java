@@ -53,7 +53,7 @@ public class StudentController {
     public ResponseEntity<String> getStudents() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         try {
-            return Utils.convertListToJson(gsonBuilder, studentService.getStudentList());
+            return Utils.convertListToJson(gsonBuilder.excludeFieldsWithoutExposeAnnotation(), studentService.getStudentList());
         } catch (DataSQLException e) {
             return ResponseEntity.status(409).body("Error");
         }

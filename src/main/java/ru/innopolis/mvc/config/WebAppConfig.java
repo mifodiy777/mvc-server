@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
+import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import ru.innopolis.mvc.entity.Student;
+import ru.innopolis.mvc.service.LessonService;
+import ru.innopolis.mvc.service.StudentService;
 import ru.innopolis.mvc.service.impl.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
@@ -45,7 +49,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
      * @return сервис
      */
     @Bean
-    public UserDetailsService getUserDetailsService() {
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
@@ -63,6 +67,36 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
         return resolver;
+    }
+
+    @Bean
+    public RmiServiceExporter registerServiceUser(UserDetailsService userDetailsService) {
+        RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
+        rmiServiceExporter.setServiceName("UserDetailsService");
+        rmiServiceExporter.setService(userDetailsService);
+        rmiServiceExporter.setServiceInterface(UserDetailsService.class);
+        rmiServiceExporter.setRegistryPort(5000);
+        return rmiServiceExporter;
+    }
+
+    @Bean
+    public RmiServiceExporter registerServiceLesson(LessonService lessonService) {
+        RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
+        rmiServiceExporter.setServiceName("LessonService");
+        rmiServiceExporter.setService(lessonService);
+        rmiServiceExporter.setServiceInterface(LessonService.class);
+        rmiServiceExporter.setRegistryPort(5000);
+        return rmiServiceExporter;
+    }
+
+    @Bean
+    public RmiServiceExporter registerServiceStudent(StudentService studentService) {
+        RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
+        rmiServiceExporter.setServiceName("StudentService");
+        rmiServiceExporter.setService(studentService);
+        rmiServiceExporter.setServiceInterface(StudentService.class);
+        rmiServiceExporter.setRegistryPort(5000);
+        return rmiServiceExporter;
     }
 
 }
