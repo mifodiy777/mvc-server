@@ -31,7 +31,7 @@ public class StudentModal {
     private Date birthday;
 
     //Список занятий
-    private List<Lesson> lessonList;
+    private List<LessonModal> lessonList;
 
     public Integer getId() {
         return id;
@@ -73,11 +73,11 @@ public class StudentModal {
         this.birthday = birthday;
     }
 
-    public List<Lesson> getLessonList() {
+    public List<LessonModal> getLessonList() {
         return lessonList;
     }
 
-    public void setLessonList(List<Lesson> lessonList) {
+    public void setLessonList(List<LessonModal> lessonList) {
         this.lessonList = lessonList;
     }
 
