@@ -1,29 +1,20 @@
 package ru.innopolis.mvc.config;
 
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import ru.innopolis.mvc.entity.Student;
-import ru.innopolis.mvc.service.LessonService;
-import ru.innopolis.mvc.service.StudentService;
+import ru.innopolis.common.service.LessonService;
+import ru.innopolis.common.service.StudentService;
 import ru.innopolis.mvc.service.impl.UserDetailsServiceImpl;
-
-import javax.sql.DataSource;
 
 /**
  * Created by Кирилл on 03.11.2016.

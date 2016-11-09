@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ru.innopolis.common.exception.DataSQLException;
+import ru.innopolis.common.modal.StudentModal;
+import ru.innopolis.common.service.StudentService;
 import ru.innopolis.mvc.Utils;
 import ru.innopolis.mvc.editor.DateCustomEditor;
 import ru.innopolis.mvc.entity.Student;
-import ru.innopolis.mvc.entityModal.StudentModal;
-import ru.innopolis.mvc.exception.DataSQLException;
-import ru.innopolis.mvc.service.StudentService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;

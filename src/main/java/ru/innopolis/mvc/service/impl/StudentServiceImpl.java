@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.innopolis.common.exception.DataSQLException;
+import ru.innopolis.common.modal.LessonModal;
+import ru.innopolis.common.modal.StudentModal;
+import ru.innopolis.common.service.StudentService;
 import ru.innopolis.mvc.DAO.StudentDAO;
 import ru.innopolis.mvc.entity.Student;
-import ru.innopolis.mvc.entityModal.StudentModal;
-import ru.innopolis.mvc.exception.DataSQLException;
-import ru.innopolis.mvc.service.StudentService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -92,8 +93,11 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public void saveStudent(StudentModal studentModal) throws DataSQLException {
         try {
-            Student student = mapper.map(studentModal, Student.class);
-            studentDAO.save(student);
+            if (studentModal.getId() != null) {
+                StudentModal old = mapper.map(studentDAO.findOne(studentModal.getId()), StudentModal.class);
+                studentModal.setLessonList(old.getLessonList());
+            }
+            studentDAO.save(mapper.map(studentModal, Student.class));
         } catch (DataIntegrityViolationException e) {
             throw new DataSQLException("Ошибка сохранения студента");
         }
@@ -121,6 +125,7 @@ public class StudentServiceImpl implements StudentService {
      * @return кол-во занятий
      */
     @Override
+    @Transactional
     public Integer countLesson(Integer studentId) throws DataSQLException {
         try {
             return studentDAO.findOne(studentId).getLessonList().size();

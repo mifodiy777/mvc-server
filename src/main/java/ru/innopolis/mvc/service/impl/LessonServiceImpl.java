@@ -2,19 +2,17 @@ package ru.innopolis.mvc.service.impl;
 
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.innopolis.common.exception.DataSQLException;
+import ru.innopolis.common.modal.LessonModal;
+import ru.innopolis.common.modal.StudentModal;
+import ru.innopolis.common.service.LessonService;
 import ru.innopolis.mvc.DAO.LessonDAO;
 import ru.innopolis.mvc.DAO.StudentDAO;
 import ru.innopolis.mvc.entity.Lesson;
-import ru.innopolis.mvc.entityModal.LessonModal;
-import ru.innopolis.mvc.entityModal.StudentModal;
-import ru.innopolis.mvc.exception.DataSQLException;
-import ru.innopolis.mvc.service.LessonService;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +109,7 @@ public class LessonServiceImpl implements LessonService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public void putStudent(Integer idLesson, Integer idStudent) throws DataSQLException {
         try {
             LessonModal lesson = mapper.map(lessonDAO.findOne(idLesson), LessonModal.class);
