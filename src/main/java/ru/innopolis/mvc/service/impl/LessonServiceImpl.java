@@ -41,6 +41,7 @@ public class LessonServiceImpl implements LessonService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public LessonModal getLesson(Integer id) throws DataSQLException {
         try {
             return mapper.map(lessonDAO.findOne(id), LessonModal.class);
@@ -56,6 +57,7 @@ public class LessonServiceImpl implements LessonService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public List<LessonModal> getLessonList() throws DataSQLException {
         List<LessonModal> lessonDTOList = new ArrayList<>();
         try {
@@ -74,7 +76,6 @@ public class LessonServiceImpl implements LessonService {
      * @throws DataSQLException
      */
     @Override
-    @Transactional
     public void addLesson(LessonModal lessonModal) throws DataSQLException {
         try {
             if (lessonModal.getId() != null) {
@@ -94,7 +95,6 @@ public class LessonServiceImpl implements LessonService {
      * @throws DataSQLException
      */
     @Override
-    @Transactional
     public void deleteLesson(Integer id) throws DataSQLException {
         try {
             lessonDAO.delete(id);

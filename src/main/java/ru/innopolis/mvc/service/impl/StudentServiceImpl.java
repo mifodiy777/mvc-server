@@ -35,6 +35,7 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public StudentModal getStudent(Integer id) throws DataSQLException {
         try {
             return mapper.map(studentDAO.findOne(id), StudentModal.class);
@@ -51,6 +52,7 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public List<StudentModal> getStudentList() throws DataSQLException {
         List<StudentModal> studentModals = new ArrayList<>();
         try {
@@ -69,6 +71,7 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
+    @Transactional
     public List<StudentModal> getStudentListIsNotLesson(Integer idLesson) throws DataSQLException {
         List<StudentModal> studentModals = new ArrayList<>();
         try {
@@ -103,7 +106,6 @@ public class StudentServiceImpl implements StudentService {
      * @throws DataSQLException
      */
     @Override
-    @Transactional
     public void deleteStudent(Integer id) throws DataSQLException {
         try {
             studentDAO.delete(id);
