@@ -5,8 +5,6 @@ package ru.innopolis.mvc.config;
  */
 public class Constance {
 
-    public static final String DISPATCHER_SERVLET_NAME = "dispatcher";
-
     public static final String URL_BASE = "jdbc:mysql://127.0.0.1:3306/students?useSSL=false";
 
     public static final String DRIVER_DB = "com.mysql.jdbc.Driver";
