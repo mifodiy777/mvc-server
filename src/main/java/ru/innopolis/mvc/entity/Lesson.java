@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Класс занятий
  * Created by Кирилл on 01.11.2016.
  */
 @Entity
 @Table(name = "lesson")
-public class Lesson implements Serializable{
+public class Lesson implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +20,7 @@ public class Lesson implements Serializable{
     private Integer id;
 
     // Тема занятия
-    @Column(name = "topic",nullable = false)
+    @Column(name = "topic", nullable = false)
     private String topic;
 
     // Описание занятия
@@ -27,18 +28,22 @@ public class Lesson implements Serializable{
     private String description;
 
     //Длительно занятия в минутах
-    @Column(name = "duration",nullable = false)
+    @Column(name = "duration", nullable = false)
     private Integer duration;
 
     //Дата занятия
-    @Column(name = "date_lesson",nullable = false)
+    @Column(name = "date_lesson", nullable = false)
     private Date dateLesson;
 
     //Список студентов посетивших занятие
     @ManyToMany
-    @JoinTable(name = "lesson_std", joinColumns = { @JoinColumn(name = "lesson_id") },
-            inverseJoinColumns = { @JoinColumn(name = "student_id") })
+    @JoinTable(name = "lesson_std", joinColumns = {@JoinColumn(name = "lesson_id")},
+            inverseJoinColumns = {@JoinColumn(name = "student_id")})
     private Set<Student> students;
+
+    @Version
+    @Column(name = "OPTLOCK")
+    private Long version;
 
     public Integer getId() {
         return id;
@@ -86,6 +91,14 @@ public class Lesson implements Serializable{
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

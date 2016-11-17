@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
+ * Класс студентов
  * Created by Кирилл on 31.10.2016.
  */
 @Entity
 @Table(name = "student")
-public class Student implements Serializable{
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,6 +36,10 @@ public class Student implements Serializable{
 
     @ManyToMany(mappedBy = "students")
     private List<Lesson> lessonList;
+
+    @Version
+    @Column(name = "OPTLOCK")
+    private Long version;
 
     public Integer getId() {
         return id;
@@ -83,6 +87,14 @@ public class Student implements Serializable{
 
     public void setLessonList(List<Lesson> lessonList) {
         this.lessonList = lessonList;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override
