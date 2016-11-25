@@ -1,22 +1,14 @@
 package ru.innopolis.mvc.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by Кирилл on 02.11.2016.
  */
-@Entity
-@Table(name = "role")
-public class Role implements Serializable{
+public class Role implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Integer id;
 
-    //Роль
-    @Column(name = "name", unique = true)
     private String name;
 
     public Integer getId() {
@@ -33,5 +25,24 @@ public class Role implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+        return name != null ? name.equals(role.name) : role.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

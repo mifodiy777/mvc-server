@@ -1,45 +1,39 @@
 package ru.innopolis.mvc.entity;
 
-import javax.persistence.*;
+
+import org.springframework.data.cassandra.mapping.Column;
+import org.springframework.data.cassandra.mapping.PrimaryKey;
+import org.springframework.data.cassandra.mapping.Table;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Класс студентов
  * Created by Кирилл on 31.10.2016.
  */
-@Entity
-@Table(name = "student")
+
+@Table(value = "student")
 public class Student implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @PrimaryKey
     private Integer id;
 
     //Фамилия
-    @Column(name = "surname")
+    @Column(value = "surname")
     private String surname;
 
     //Имя
-    @Column(name = "name")
+    @Column(value = "name")
     private String name;
 
     //Пол
-    @Column(name = "gender")
+    @Column(value = "gender")
     private String gender;
 
     //Дата рождения
-    @Column(name = "birthday")
+    @Column(value = "birthday")
     private Date birthday;
-
-    @ManyToMany(mappedBy = "students")
-    private List<Lesson> lessonList;
-
-    @Version
-    @Column(name = "OPTLOCK")
-    private Long version;
 
     public Integer getId() {
         return id;
@@ -81,22 +75,6 @@ public class Student implements Serializable {
         this.birthday = birthday;
     }
 
-    public List<Lesson> getLessonList() {
-        return lessonList;
-    }
-
-    public void setLessonList(List<Lesson> lessonList) {
-        this.lessonList = lessonList;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,8 +86,7 @@ public class Student implements Serializable {
         if (surname != null ? !surname.equals(student.surname) : student.surname != null) return false;
         if (name != null ? !name.equals(student.name) : student.name != null) return false;
         if (gender != null ? !gender.equals(student.gender) : student.gender != null) return false;
-        if (birthday != null ? !birthday.equals(student.birthday) : student.birthday != null) return false;
-        return lessonList != null ? lessonList.equals(student.lessonList) : student.lessonList == null;
+        return birthday != null ? birthday.equals(student.birthday) : student.birthday == null;
 
     }
 
@@ -120,7 +97,6 @@ public class Student implements Serializable {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (lessonList != null ? lessonList.hashCode() : 0);
         return result;
     }
 }

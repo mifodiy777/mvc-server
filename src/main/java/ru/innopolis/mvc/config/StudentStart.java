@@ -11,7 +11,7 @@ public class StudentStart {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         // Регистрируем в контексте конфигурационный класс MVC, Security
         ctx.register(WebServiceConfig.class);
-        ctx.register(JPAConfig.class);
+        ctx.register(CassandraConfig.class);
         ctx.refresh();
     }
 

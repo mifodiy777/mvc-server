@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.innopolis.mvc.DAO.UserDAO;
 import ru.innopolis.mvc.entity.Role;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,26 +21,28 @@ import java.util.Collection;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserDAO userDAO;
-
     private static Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ru.innopolis.mvc.entity.User user = null;
-        try {
-            user = userDAO.findByLogin(username.trim());
-        } catch (SQLException e) {
-           logger.error(e.getMessage(),e);
-        }
+        Role role = new Role();
+        role.setId(1);
+        role.setName("ROLE_USER");
+        ru.innopolis.mvc.entity.User user = new ru.innopolis.mvc.entity.User();
+        user.setRole(role);
+        user.setId(1);
+        user.setActive(true);
+        user.setSurname("1");
+        user.setName("2");
+        user.setPatronymic("3");
+
+
         if (user == null) {
             throw new UsernameNotFoundException("Пользователь с таким логином не найден");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+
         String fio = user.getSurname() + " " + user.getName();
         User securityUser = new User(fio.trim(), user.getPassword(), true, true, true, true, authorities);
 

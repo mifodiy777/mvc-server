@@ -1,48 +1,27 @@
 package ru.innopolis.mvc.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+
 
 /**
  * Created by Кирилл on 02.11.2016.
  */
-@Entity
-@Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Integer id;
 
-    //Логин
-    @Column(name = "login", unique = true)
     private String login;
 
-    //Пароль
-    @Column(name = "password")
     private String password;
 
-    //Имя
-    @Column(name = "name")
     private String name;
 
-    //Фамилия
-    @Column(name = "surname")
     private String surname;
 
-    //Отчество
-    @Column(name = "patronymic")
     private String patronymic;
 
-    @ManyToMany(cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> roles;
+    private Role role;
 
-    //Актиность пользователя
-    @Column(name = "active")
     private boolean active;
 
     public User() {
@@ -96,12 +75,12 @@ public class User implements Serializable{
         this.patronymic = patronymic;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean isActive() {
@@ -126,7 +105,7 @@ public class User implements Serializable{
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (patronymic != null ? !patronymic.equals(user.patronymic) : user.patronymic != null) return false;
-        return roles != null ? roles.equals(user.roles) : user.roles == null;
+        return role != null ? role.equals(user.role) : user.role == null;
 
     }
 
@@ -138,7 +117,7 @@ public class User implements Serializable{
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (active ? 1 : 0);
         return result;
     }
